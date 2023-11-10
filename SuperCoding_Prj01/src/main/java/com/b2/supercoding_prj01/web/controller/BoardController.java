@@ -55,13 +55,7 @@ public class BoardController {
                                                    @RequestHeader("X-AUTH-TOKEN") String token) {
         String author = jwtTokenProvider.findEmailBytoken(token);
         if(userService.test2(author)) {
-            Optional<BoardEntity> board = boardRepository.findById(boardId);
-            return board.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//        = if (board.isPresent()) {
-//            return ResponseEntity.ok(board.get());
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
+            return boardService.findByBoardId(boardId);
         }else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그아웃된 유저입니다.");
     }
 

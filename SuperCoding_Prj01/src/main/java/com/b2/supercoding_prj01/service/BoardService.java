@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,4 +46,21 @@ public class BoardService {
             return boardRepository.save(board);
         }else return null;
     }
+
+    public ResponseEntity<?> findByBoardId(Long boardId) {
+        Optional<BoardEntity> board = boardRepository.findById(boardId);
+        if (board.isPresent()) {
+            BoardEntity findBoard =  BoardEntity.builder()
+                                    .boardId(boardId)
+                                    .title(board.get().getTitle())
+                                    .content(board.get().getContent())
+                                    .author(board.get().getAuthor())
+                                    .createdAt(currentTimestamp)
+                                    .build();
+            return ResponseEntity.ok(findBoard);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
