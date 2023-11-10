@@ -7,8 +7,8 @@ use board;
 CREATE TABLE `user` (
 	`user_idx` BIGINT	auto_increment primary key, #유저 식별값
 	`email` varchar(45) NOT NULL, #이메일
-	`password` varchar(100) NOT NULL #비밀번호
-
+	`password` varchar(100) NOT NULL, #비밀번호
+    `role` varchar(20)
 );
 
 

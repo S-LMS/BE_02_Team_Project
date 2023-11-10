@@ -21,6 +21,9 @@ public class CommentsDto {
 
     private String author;
 
+    @JsonProperty("heart")
+    private Integer heart;
+
     @JsonProperty("boardId")
     private Long boardId;
 
@@ -35,6 +38,7 @@ public class CommentsDto {
         dto.setAuthor(entity.getAuthor());
         dto.setBoardId(entity.getBoard().getBoardId());
         dto.setCreatedAt(entity.getCreatedAt());
+        dto.setHeart(entity.getHeart());
         return dto;
     }
 }

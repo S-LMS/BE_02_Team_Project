@@ -127,9 +127,8 @@ public class CommentsController {
         else {
             String email = jwtTokenProvider.findEmailBytoken(token);
             if(userService.test2(email)){
-                return email.isBlank()? ResponseEntity.status(HttpStatus.FORBIDDEN).body("token이 없습니다."): heartService.clickHeart(postId, email);
-            }
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그아웃된 사용자입니다.");
+                return heartService.clickHeart(postId, email);
+            }else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그아웃된 사용자입니다.");
         }
     }
 

@@ -50,6 +50,7 @@ public class CommentsService {
                 .author(commentsDto.getAuthor())
                 .content(commentsDto.getContent())
                 .user(user)
+                .heart(0)
                 .createdAt(currentTimestamp)
                 .build();
 
@@ -57,26 +58,19 @@ public class CommentsService {
     }
     public void updateComment(CommentsDto2 commentsDto, long postId) {
         Optional<CommentsEntity> existingComment = commentsRepository.findByPostId(postId);
-        if(commentsDto.getBoardId().equals(existingComment.get().getBoard().getBoardId())) {
-            if (existingComment.isPresent()) {
+        if(existingComment.isPresent()) {
+            if (commentsDto.getBoardId().equals(existingComment.get().getBoard().getBoardId())) {
                 CommentsEntity commentsEntity = existingComment.get();
                 commentsEntity.setContent(commentsDto.getContent());
                 commentsRepository.save(commentsEntity);
-            } else {
-                throw new EntityNotFoundException("댓글을 찾을 수 없습니다.");
-            }
-        }else {
-            throw new EntityNotFoundException("해당 게시물에 작성한 댓글이 없습니다.");
-        }
+            } else throw new EntityNotFoundException("해당 게시물에 작성한 댓글이 없습니다.");
+        }else throw new EntityNotFoundException("댓글을 찾을 수 없습니다.");
     }
     public void deleteComment(long postId) {
         Optional<CommentsEntity> existingComment = commentsRepository.findByPostId(postId);
-        if (existingComment.isPresent()) {
+        if (existingComment.isPresent())
             commentsRepository.deleteById(postId);
-        }
-        else {
-            throw new EntityNotFoundException("댓글을 찾을 수 없습니다.");
-        }
+        else throw new EntityNotFoundException("댓글을 찾을 수 없습니다.");
     }
 
 }
